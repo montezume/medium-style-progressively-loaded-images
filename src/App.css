@@ -1,7 +1,8 @@
 .app {
   display: flex;
   justify-content: center;
-  padding-top: 1em;
+  padding-top: 0.5em;
+  font-family: sans-serif;
 }
 
 .container {
@@ -10,5 +11,14 @@
 }
 
 .wrapper {
-  padding: 1em 0;
+  padding: 0.5em 0;
+}
+
+figcaption {
+  padding-top: 1em;
+  text-align: center;
+}
+
+a {
+  color: #c35e74;
 }

@@ -23,15 +23,18 @@ const ImageContainer = props => {
   const aspectRatio = (props.height / props.width) * 100;
 
   return (
-    <div
+    <a
+      href={props.url}
       ref={ref}
+      rel="noopener noreferrer"
+      target="_BLANK"
       className="image-container"
       style={{ paddingBottom: `${aspectRatio}%` }}
     >
       {isVisible && (
         <Image src={props.src} thumb={props.thumb} alt={props.alt} />
       )}
-    </div>
+    </a>
   );
 };
 

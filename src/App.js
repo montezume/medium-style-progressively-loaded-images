@@ -46,8 +46,27 @@ function App() {
                 height={res.height}
                 width={res.width}
                 alt={res.alt_description}
+                url={res.links.html}
                 onIsVisible={() => onIsVisible(index)}
               />
+              <figcaption>
+                Photo by{" "}
+                <a
+                  href={res.user.links.html}
+                  rel="noopener noreferrer"
+                  target="_BLANK"
+                >
+                  {res.user.name}
+                </a>{" "}
+                on{" "}
+                <a
+                  rel="noopener noreferrer"
+                  target="_BLANK"
+                  href="https://unsplash.com"
+                >
+                  Unsplash
+                </a>
+              </figcaption>
             </div>
           );
         })}
