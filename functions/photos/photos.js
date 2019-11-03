@@ -7,11 +7,12 @@ exports.handler = async function(event, context) {
     const { page } = event.queryStringParameters;
     if (cache[page]) {
       return {
+        headers: {
+          "USED-CACHE": "true"
+        },
         statusCode: 200,
         body: JSON.stringify(cache[page])
       };
-    } else {
-      console.log(`No cache for page ${page}`); // output to netlify function log
     }
 
     const response = await fetch(
@@ -31,6 +32,9 @@ exports.handler = async function(event, context) {
     cache[page] = data;
 
     return {
+      headers: {
+        "USED-CACHE": "false"
+      },
       statusCode: 200,
       body: JSON.stringify(data)
     };
