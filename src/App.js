@@ -3,9 +3,15 @@ import React from "react";
 import ImageContainer from "./components/image-container";
 import "./App.css";
 
+const checkForError = response => {
+  if (!response.ok) throw Error(response.statusText);
+  return response;
+};
+
 function App() {
   const [loading, setLoading] = React.useState(false);
   const [images, setImages] = React.useState([]);
+  const [error, setError] = React.useState(false);
   const [page, setPage] = React.useState(1);
 
   const onIsVisible = index => {
@@ -17,12 +23,15 @@ function App() {
   React.useEffect(() => {
     const fetchPhotos = async page => {
       setLoading(true);
-      const result = await fetch(`/.netlify/functions/photos?page=${page}`);
-      const photoResult = await result.json();
-
-      setImages(photos => {
-        return photos.concat(photoResult);
-      });
+      try {
+        const result = await fetch(`/.netlify/functions/photos?page=${page}`);
+        const photoResult = await checkForError(result).json();
+        setImages(photos => {
+          return photos.concat(photoResult);
+        });
+      } catch (e) {
+        setError(true);
+      }
       setLoading(false);
     };
     fetchPhotos(page);
@@ -31,6 +40,12 @@ function App() {
   return (
     <div className="app">
       <div className="container">
+        {error && (
+          <div>
+            Error occured. Please refresh page and try again. Maybe I made too
+            many Unsplash API requests
+          </div>
+        )}
         {images.map((res, index) => {
           return (
             <div key={`${res.id}-${index}`} className="wrapper">
