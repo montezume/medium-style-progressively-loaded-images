@@ -1,13 +1,43 @@
 import React from "react";
-import images from "./images.json";
+// import images from "./images.json";
 import ImageContainer from "./components/image-container";
 import "./App.css";
 
 function App() {
+  const [loading, setLoading] = React.useState(false);
+  const [images, setImages] = React.useState([]);
+  const [page, setPage] = React.useState(1);
+
+  const onIsVisible = index => {
+    if (index === images.length - 1) {
+      setPage(page => page + 1);
+    }
+  };
+
+  React.useEffect(() => {
+    const fetchPhotos = async page => {
+      setLoading(true);
+      const result = await fetch(`/.netlify/functions/photos?page=${page}`);
+      const photoResult = await result.json();
+
+      setImages(photos => {
+        const filtered = photoResult.filter(photo => {
+          const isAlreadyHere = photos.some(
+            originalPhoto => originalPhoto.id === photo.id
+          );
+          return !isAlreadyHere;
+        });
+        return photos.concat(filtered);
+      });
+      setLoading(false);
+    };
+    fetchPhotos(page);
+  }, [page]);
+
   return (
     <div className="app">
       <div className="container">
-        {images.slice(2).map(res => {
+        {images.map((res, index) => {
           return (
             <div key={res.id} className="wrapper">
               <ImageContainer
@@ -16,10 +46,12 @@ function App() {
                 height={res.height}
                 width={res.width}
                 alt={res.alt_description}
+                onIsVisible={() => onIsVisible(index)}
               />
             </div>
           );
         })}
+        {loading && <div>Loading...</div>}
       </div>
     </div>
   );

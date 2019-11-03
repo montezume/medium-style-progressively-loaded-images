@@ -11,7 +11,10 @@ const ImageContainer = props => {
     target: ref,
     onIntersect: ([{ isIntersecting }], observerElement) => {
       if (isIntersecting) {
-        setIsVisible(true);
+        if (!isVisible) {
+          props.onIsVisible();
+          setIsVisible(true);
+        }
         observerElement.unobserve(ref.current);
       }
     }
