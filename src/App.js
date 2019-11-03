@@ -21,13 +21,7 @@ function App() {
       const photoResult = await result.json();
 
       setImages(photos => {
-        const filtered = photoResult.filter(photo => {
-          const isAlreadyHere = photos.some(
-            originalPhoto => originalPhoto.id === photo.id
-          );
-          return !isAlreadyHere;
-        });
-        return photos.concat(filtered);
+        return photos.concat(photoResult);
       });
       setLoading(false);
     };
@@ -39,7 +33,7 @@ function App() {
       <div className="container">
         {images.map((res, index) => {
           return (
-            <div key={res.id} className="wrapper">
+            <div key={`${res.id}-${index}`} className="wrapper">
               <ImageContainer
                 src={res.urls.regular}
                 thumb={res.urls.thumb}
