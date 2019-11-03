@@ -4,7 +4,7 @@ exports.handler = async function(event, context) {
   try {
     const { page } = event.queryStringParameters;
     const response = await fetch(
-      `https://api.unsplash.com/photos?page=${page}&per_page=12&order_by=latest`,
+      `https://api.unsplash.com/photos?page=${page}&per_page=6&order_by=latest`,
       {
         headers: {
           Accept: "application/json",
