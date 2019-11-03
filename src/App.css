@@ -12,30 +12,3 @@
 .wrapper {
   padding: 1em 0;
 }
-
-img {
-  width: 100%;
-}
-
-.thumb-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  filter: blur(20px);
-  transform: scale(1.1);
-  transition: visibility 0ms ease 400ms;
-  visibility: visible;
-}
-
-.full-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 400ms ease 0ms;
-  background: white;
-}
