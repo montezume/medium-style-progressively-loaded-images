@@ -10,6 +10,8 @@ exports.handler = async function(event, context) {
         statusCode: 200,
         body: JSON.stringify(cache[page])
       };
+    } else {
+      console.log(`No cache for page ${page}`); // output to netlify function log
     }
 
     const response = await fetch(
