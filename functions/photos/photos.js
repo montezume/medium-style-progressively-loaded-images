@@ -1,8 +1,17 @@
 const fetch = require("node-fetch");
 
+let cache = {}; // Defined outside the function globally
+
 exports.handler = async function(event, context) {
   try {
     const { page } = event.queryStringParameters;
+    if (cache[page]) {
+      return {
+        statusCode: 200,
+        body: JSON.stringify(cache[page])
+      };
+    }
+
     const response = await fetch(
       `https://api.unsplash.com/photos?page=${page}&per_page=6&order_by=latest`,
       {
@@ -17,6 +26,7 @@ exports.handler = async function(event, context) {
       return { statusCode: response.status, body: response.statusText };
     }
     const data = await response.json();
+    cache[page] = data;
 
     return {
       statusCode: 200,
